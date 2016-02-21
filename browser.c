@@ -30,6 +30,9 @@ int main(int argc, char** argv) {
 
   // Create the web view and browse to the default URL
   web_view = WEBKIT_WEB_VIEW(webkit_web_view_new());
+  // Ensure to set the appropriate size of the web view so that it doesn't
+  // grow and cause a feedback loop with 100% sized elements
+  gtk_widget_set_size_request(GTK_WIDGET(web_view), width, height);
   webkit_web_view_load_uri(web_view, DEFAULT_URL);
   gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(web_view));
 
