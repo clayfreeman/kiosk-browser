@@ -7,6 +7,7 @@
  * GTK+ WebKit implementation of a kiosk-oriented web browser
  */
 
+#include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <webkit/webkit.h>
 
@@ -18,6 +19,11 @@ static GtkWidget*     window;
 int main(int argc, char** argv) {
   gtk_init(&argc, &argv);
 
+  // Fetch the screen resolution
+        GdkScreen* screen = gdk_screen_get_default();
+  const gint       width  = gdk_screen_get_width(screen);
+  const gint       height = gdk_screen_get_height(screen);
+
   // Create the main application window
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
@@ -28,6 +34,7 @@ int main(int argc, char** argv) {
   gtk_container_add(GTK_CONTAINER(window), GTK_WIDGET(web_view));
 
   // Set the appropriate resolution and show the web view
+  gtk_window_resize(GTK_WINDOW(window), width, height);
   gtk_window_fullscreen(GTK_WINDOW(window));
   gtk_widget_show_all(window);
 
